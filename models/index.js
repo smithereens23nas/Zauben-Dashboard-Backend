@@ -5,7 +5,7 @@ const dbConfig = require("../config/db_config");
 const Sequelize = require("sequelize");
 
 // instantiate new instance of sequelize
-const sequelize = new Sequelize(dbConfig.DB,dbConfig.USER,dbConfig.PASSWORD, {
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   logging: (...msg) => console.log(msg),
@@ -14,8 +14,8 @@ const sequelize = new Sequelize(dbConfig.DB,dbConfig.USER,dbConfig.PASSWORD, {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle
-  }
+    idle: dbConfig.pool.idle,
+  },
 });
 
 // create DB object for export
@@ -28,25 +28,26 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // require DB models
-db.articles = require("./article.model.js")(sequelize, Sequelize);
-db.users = require("./user.model.js")(sequelize, Sequelize);
+db.plants = require("./plant_model")(sequelize, Sequelize);
+db.performance = require("./performance_model")(sequelize, Sequelize);
+db.locations = require("./location_model")(sequelize, Sequelize);
+db.users = require("./user_model")(sequelize, Sequelize);
 
 //Establishing many-to-many relationship
 // @TODO Look into establishing many-to-many and finding join table
-db.articles.belongsToMany(db.users, {
-  through: "user_article",
-  as: "users",
-  // foreignKey: "articles_id"
+db.users.belongsToMany(db.locations, {
+  through: "user_locations",
+  as: "locations",
+  foreignKey: "users_id",
 });
 
-// console.log(db.user_article)
+console.log(db.user_article);
 // console.log("Hello World")
-db.users.belongsToMany(db.articles, {
-  through: "user_article",
-  as: "articles",
-  // foreignKey: "users_id"
+db.locations.belongsToMany(db.users, {
+  through: "user_locations",
+  as: "users",
+  foreignKey: "locations_id",
 });
-
 
 // export
 module.exports = db;

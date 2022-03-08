@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Locations = sequelize.define("locations", {
+  const Plants = sequelize.define("plants", {
     // @TODO implement new UUID for primary key
     Locations: {
       type: Sequelize.ENUM({
@@ -10,9 +10,9 @@ module.exports = (sequelize, Sequelize) => {
           "Cafe",
           "Wellness Area",
           "Other",
-        ]
-      })
-    }
+        ],
+      }),
+    },
   });
-  return Locations;
+  return Plants;
 };
