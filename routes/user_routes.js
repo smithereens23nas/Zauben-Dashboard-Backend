@@ -1,36 +1,32 @@
-module.exports = app => {
-    const users = require("../controllers/user_controller");
+module.exports = (app) => {
+  const users = require("../controllers/user_controller");
 
-    let router = require("express").Router();
+  let router = require("express").Router();
 
-    router.get('/test', (req, res) => {
-        res.send('Hello World')
-    })
+  router.get("/test", (req, res) => {
+    res.send("Hello World");
+  });
 
+  // Create new article
+  router.post("/", users.create);
 
-    // Create new article
-    router.post("/", users.create);
-    
-    // // Search all Users by original_title
-    // router.get("/", users.findAllBySearch);
+  // Retrieve all Users
+  router.get("/all", users.findAll);
 
-    // Retrieve all Users
-    router.get("/all", users.findAll);
+  // Retrieve single User by ID
+  router.get("/:id", users.findOne);
 
-//     // Retrieve single User by ID
-    router.get("/:id", users.findOne);
+  // Update Single User
+  router.put("/:id", users.update);
 
-//     // Update Single User
-    router.put("/:id", users.update);
-    
-//     // delete Single User
-    router.delete("/:id", users.delete);
-    
-//     // Set articles for user
-    router.put("/:id/setLocation", users.setUserArticle)
+  // delete Single User
+  router.delete("/:id", users.delete);
   
-//     // delete article for user
-    router.delete("/:id/deleteLocation", users.deleteUserArticle)
+  // Set articles for user
+  //     router.put("/:id/setLocation", users.setUserArticle)
 
-app.use('/api/users', router);
-  };
+  // delete article for user
+  //     router.delete("/:id/deleteLocation", users.deleteUserArticle)
+
+  app.use("/api/users", router);
+};

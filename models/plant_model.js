@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
           "Common Area",
           "Cafe",
           "Wellness Area",
-          "Other", //user is able to put input
+          "Other", //add in this feature later where user is able to put input
         ],
       }),
     },

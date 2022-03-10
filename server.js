@@ -34,6 +34,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Requiring routes folder
 require("./routes/user_routes")(app);
 require("./routes/location_routes")(app);
+require("./routes/plant_routes")(app);
+require("./routes/performance_routes")(app);
 
 // LISTENER
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));

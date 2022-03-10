@@ -56,7 +56,7 @@ exports.findOne = (req, res) => {
 
   User.findAll({
     where: { id: id},
-    include: "locations"
+    include: "locations"//Is this right ???
   })
     .then(data => {
       if (data) {
@@ -127,40 +127,40 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.setUserLocation = (req, res) => {
-  const userId = req.params.id
-  const locationId = req.body.locationId
+// exports.setUserLocation = (req, res) => {
+//   const userId = req.params.id
+//   const locationId = req.body.locationId
 
-  User.findByPk(userId).then(user => {
-    Location.findByPk(locationId).then(location => {
-      user.addLocation([location]); //look into this, not sure??
-    }).then(() => {
-        res.send("user_location successfully updated");
-      } 
-    )
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving users."
-      });
-    });
-  })
-}
+//   User.findByPk(userId).then(user => {
+//     Location.findByPk(locationId).then(location => {
+//       user.addLocation([location]); //look into this, not sure??
+//     }).then(() => {
+//         res.send("user_location successfully updated");
+//       } 
+//     )
+//     .catch(err => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving users."
+//       });
+//     });
+//   })
+// }
 
-// Deletes user_location entry from user side
-exports.deleteUserLocation = (req, res) => {
-  const userId = req.params.id
-  const locationId = req.body.locationId
+// // Deletes user_location entry from user side
+// exports.deleteUserLocation = (req, res) => {
+//   const userId = req.params.id
+//   const locationId = req.body.locationId
 
-  User.findByPk(userId).then(user => {
-    user.removeLocation([locationId]);
-  }).then(() => {
-    res.send("user_location successfully yeeted");
-  })
-  .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while deleting reference."
-    });
-  });
-}
+//   User.findByPk(userId).then(user => {
+//     user.removeLocation([locationId]);
+//   }).then(() => {
+//     res.send("user_location successfully yeeted");
+//   })
+//   .catch(err => {
+//     res.status(500).send({
+//       message:
+//         err.message || "Some error occurred while deleting reference."
+//     });
+//   });
+// }

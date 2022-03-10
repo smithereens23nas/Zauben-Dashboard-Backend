@@ -1,7 +1,7 @@
 const db = require("../models");
 const User = db.users;
 const Location = db.locations;
-const Op = db.Sequelize.Op;
+// const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
   if (
@@ -51,23 +51,23 @@ exports.findAll = (req, res) => {
   exports.findOne = (req, res) => {
     const id = req.params.id;
   
-    User.findAll({
+    Location.findAll({
       where: { id: id},
-      include: "locations"
+      // include: "Locations"
     })
       .then(data => {
         if (data) {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find User with id=${id}.`
+            message: `Cannot find Location with id=${id}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || `Error retrieving User with id=${id}.`
+            err.message || `Error retrieving Location with id=${id}.`
         });
       });
   };
@@ -76,17 +76,17 @@ exports.findAll = (req, res) => {
   exports.update = (req, res) => {
     const id = req.params.id;
   
-    User.update(req.body, {
+    Location.update(req.body, {
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "User was updated successfully."
+            message: "Location was updated successfully."
           });
         } else {
           res.send({
-            message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+            message: `Cannot update Location with id=${id}. Maybe Location was not found or req.body is empty!`
           });
         }
       })
@@ -102,24 +102,24 @@ exports.findAll = (req, res) => {
   exports.delete = (req, res) => {
     const id = req.params.id;
   
-    User.destroy({
+    Location.destroy({
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "User deleted successfully."
+            message: "Location deleted successfully."
           });
         } else {
           res.send({
-            message: `Could not delete User with id: ${id}. User may not have been found.`
+            message: `Could not delete Location with id: ${id}. Location may not have been found.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || `Could not delete Tutorial with id: ${id}.`
+            err.message || `Could not delete Location with id: ${id}.`
         });
       });
   };
@@ -145,22 +145,22 @@ exports.findAll = (req, res) => {
 //   }
   
   // Deletes user_location entry from user side
-  exports.deleteUserLocation = (req, res) => {
-    const userId = req.params.id
-    const locationId = req.body.locationId
+//   exports.deleteUserLocation = (req, res) => {
+//     const userId = req.params.id
+//     const locationId = req.body.locationId
   
-    User.findByPk(userId).then(user => {
-      user.removeLocation([locationId]);
-    }).then(() => {
-      res.send("user_location successfully yeeted");
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while deleting reference."
-      });
-    });
-  }
+//     User.findByPk(userId).then(user => {
+//       user.removeLocation([locationId]);
+//     }).then(() => {
+//       res.send("user_location successfully yeeted");
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while deleting reference."
+//       });
+//     });
+//   }
 
 // Search Articles by original_title
 // exports.findAllBySearch = (req, res) => {
