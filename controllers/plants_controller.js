@@ -123,7 +123,7 @@ exports.delete = (req, res) => {
 //   const locationId = req.body.locationId;
 
 //   Plant.findByPk(userId).then((user) => {
-//     Location.findByPk(locationId)
+//     Location.findByPk(locationId) //TODO not sure???
 //       .then((location) => {
 //         user.addLocation([location]); //look into this, not sure??
 //       })

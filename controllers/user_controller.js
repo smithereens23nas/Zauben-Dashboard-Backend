@@ -133,7 +133,7 @@ exports.delete = (req, res) => {
 
 //   User.findByPk(userId).then(user => {
 //     Location.findByPk(locationId).then(location => {
-//       user.addLocation([location]); //look into this, not sure??
+//       user.addLocation([location]); //TODO look into this, not sure??
 //     }).then(() => {
 //         res.send("user_location successfully updated");
 //       } 
