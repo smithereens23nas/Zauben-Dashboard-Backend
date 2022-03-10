@@ -71,7 +71,7 @@ exports.findOne = (req, res) => {
 
   Performance.findAll({
     where: { id: id },
-    // include: "plants", //TODO Do I need this????
+    // include: "plants", //TODO Do I need this???
   })
     .then((data) => {
       if (data) {
