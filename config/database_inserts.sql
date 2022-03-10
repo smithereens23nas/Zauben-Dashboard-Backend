@@ -11,6 +11,15 @@ CREATE TABLE IF NOT EXISTS "zauben_test" (
     "Soilmoisture_CH7" NUMERIC(3, 1),
     "Soilmoisture_CH8" NUMERIC(3, 1)
 );
+
+CREATE TABLE accounts (
+	user_id serial PRIMARY KEY,
+	username VARCHAR ( 50 ) UNIQUE NOT NULL,
+	password VARCHAR ( 50 ) NOT NULL,
+	email VARCHAR ( 255 ) UNIQUE NOT NULL,
+	created_on TIMESTAMP NOT NULL,
+        last_login TIMESTAMP 
+);
 INSERT INTO "zauben_test" VALUES
     ('2022-03-07 00:00:00',28.95,28.95,42.0,49.0,43.0,45.0,47.0,60.0,41.0,61.0),
     ('2022-03-07 00:05:00',28.95,28.95,42.0,49.0,43.0,45.0,47.0,60.0,41.0,61.0),
@@ -166,3 +175,12 @@ INSERT INTO "zauben_test" VALUES
     ('2022-03-07 12:35:00',28.92,28.92,41.0,49.0,43.0,45.0,47.0,61.0,41.0,61.0),
     ('2022-03-07 12:40:00',28.91,28.91,41.0,49.0,43.0,45.0,47.0,61.0,41.0,61.0),
     ('2022-03-07 12:45:00',28.91,28.91,41.0,49.0,43.0,45.0,47.0,61.0,41.0,61.0);
+
+
+    CREATE TABLE IF NOT EXISTS "users" (
+    "first_name" STRING,
+    "last_name" STRING,
+    "email" STRING,
+    "username" STRING,
+    "password" STRING,
+);

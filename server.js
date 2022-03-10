@@ -2,80 +2,38 @@
 // get .env variables
 require("dotenv").config();
 // pull PORT from .env, give default value of 3000
-const { PORT = 3003 } = process.env;
+const { PORT = 8080 } = process.env;
 // import express
 const express = require("express");
+const bodyParser = require("body-parser");
 // create application object
 const app = express();
 const cors = require("cors");
-const dbConfig = require("./config/db_config");
-const { Sequelize } = require('sequelize');
+
+// db setup
+const db = require("./models");
+db.sequelize.sync().then(() => {
+  // @TODO delete console.log before deployment
+  console.log("DB connected");
+});
+
 let corsOptions = {
-    origin: "http://localhost:3003"
+    origin: "http://localhost:8081"
   };
 // console.log(sequelize)
 app.use(cors(corsOptions));
 app.use(express.json()); //req.body
 
-// ROUTES
-// create a test route
-app.get("/", async(req, res) => {
-    try {
-        res.send("Hello world")
+// parse requests (json)
+app.use(bodyParser.json());
 
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-  
-  // PEOPLE INDEX ROUTE
-  app.get("/people", async (req, res) => {
-    try {
-      // send all people
-      res.json(await People.find({}));
-    } catch (error) {
-      //send error
-      res.status(400).json(error);
-    }
-  });
-  
-  // PEOPLE CREATE ROUTE
-  app.post("/people", async (req, res) => {
-    try {
-      // send all people
-      res.json(await People.create(req.body));
-    } catch (error) {
-      //send error
-      res.status(400).json(error);
-    }
-  });
-  
-  // PEOPLE UPDATE ROUTE
-  app.put("/people/:id", async (req, res) => {
-    try {
-      // send all people
-      res.json(
-        await People.findByIdAndUpdate(req.params.id, req.body, { new: true })
-      );
-    } catch (error) {
-      //send error
-      res.status(400).json(error);
-    }
-  });
-  
-  // PEOPLE DELETE ROUTE
-  app.delete("/people/:id", async (req, res) => {
-    try {
-      // send all people
-      res.json(await People.findByIdAndRemove(req.params.id));
-    } catch (error) {
-      //send error
-      res.status(400).json(error);
-    }
-  });
+// @TODO what is this?
+// content-type --> application/x-www-form-urlencoded ????
+app.use(bodyParser.urlencoded({ extended: true }));
 
-
-
+// Requiring routes folder
+require("./routes/user_routes")(app);
+require("./routes/location_routes")(app);
 
 // LISTENER
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));

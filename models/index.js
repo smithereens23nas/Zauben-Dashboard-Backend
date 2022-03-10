@@ -36,18 +36,33 @@ db.users = require("./user_model")(sequelize, Sequelize);
 //Establishing many-to-many relationship
 // @TODO Look into establishing many-to-many and finding join table
 db.users.belongsToMany(db.locations, {
-  through: "user_locations",
-  as: "locations",
+  through: "user_locations", //what we reference our joined table
+  as: "locations", //using data from the value ex: using data from locations table
   foreignKey: "users_id",
 });
 
-console.log(db.user_article);
+// console.log(db.user_article);
 // console.log("Hello World")
 db.locations.belongsToMany(db.users, {
   through: "user_locations",
   as: "users",
   foreignKey: "locations_id",
 });
+
+db.locations.belongsToMany(db.plants, {
+  through: "plants_location",
+  as: "plants", 
+  foreignKey: "locations_id"
+});
+
+db.plants.belongsToMany(db.performance, {
+  through: "plants_performance",
+  as: "performance",
+  foreignKey: "plants_id"
+})
+
+
+
 
 // export
 module.exports = db;

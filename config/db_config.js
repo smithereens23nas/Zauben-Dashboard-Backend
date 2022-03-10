@@ -4,9 +4,9 @@ module.exports = {
     HOST: "localhost", 
     USER: "nicholassmith",
     PASSWORD: "Welcome23!",
-    DB: "zauben_test",
+    DB: "zauben",
     dialect: "postgres",
-    port: 3002,
+    port: 8080,
 
     pool: {
         max:5,
