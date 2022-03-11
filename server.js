@@ -2,7 +2,7 @@
 // get .env variables
 require("dotenv").config();
 // pull PORT from .env, give default value of 3000
-const { PORT = 8080 } = process.env;
+const { PORT } = process.env;
 // import express
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -18,7 +18,7 @@ db.sequelize.sync().then(() => {
 });
 
 let corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://localhost:3000"
   };
 // console.log(sequelize)
 app.use(cors(corsOptions));

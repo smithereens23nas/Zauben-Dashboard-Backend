@@ -25,10 +25,10 @@ exports.create = (req, res) => {
   User.create(user)
     .then((data) => {
       console.log(data);
-      res.send(data);
+      return res.send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message || "An error occured while creating User.",
       });
     });

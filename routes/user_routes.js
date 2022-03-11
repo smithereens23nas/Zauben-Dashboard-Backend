@@ -8,7 +8,7 @@ module.exports = (app) => {
   });
 
   // Create new article
-  router.post("/", users.create);
+  router.post("/register", users.create);
 
   // Retrieve all Users
   router.get("/all", users.findAll);
@@ -21,7 +21,7 @@ module.exports = (app) => {
 
   // delete Single User
   router.delete("/:id", users.delete);
-  
+
   // Set articles for user
   //     router.put("/:id/setLocation", users.setUserArticle)
 
