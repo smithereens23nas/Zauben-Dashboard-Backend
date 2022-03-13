@@ -3,15 +3,13 @@ const User = db.users;
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const auth = require('../middleware/auth');
-const User = require('../models');
 // const Location = db.locations;
 // const Op = db.Sequelize.Op;
 /* ==== Routes ==== */
 
 /* Register */
-exports.create(async (req, res) => {
+exports.create = (async (req, res) => {
   try {
 
     let { username, email, password, passwordCheck } = req.body;
@@ -74,7 +72,7 @@ exports.create(async (req, res) => {
 });
 
 /* Login */
-exports.create(async (req, res) => {
+exports.create = (async (req, res) => {
   try {
     
     const { email, password } = req.body;
@@ -129,7 +127,7 @@ exports.create(async (req, res) => {
 });
 
 /* Verify JWT Validity */
-exports.create(async (req, res) => {
+exports.create = (async (req, res) => {
   try {
 
     const token = req.header('x-auth-token');
@@ -162,7 +160,7 @@ exports.create(async (req, res) => {
 });
 
 /* Get User */
-exports.findOne(auth, async (req, res) => {
+exports.findOne = (auth, async (req, res) => {
 
   const user = await User.findById(req.user);
 
@@ -174,8 +172,31 @@ exports.findOne(auth, async (req, res) => {
   );
 });
 
+// //Update a User
+// User.update = (req.body, {
+//   where: { id: id }
+// })
+//   .then(num => {
+//     if (num == 1) {
+//       res.send({
+//         message: "User was updated successfully."
+//       });
+//     } else {
+//       res.send({
+//         message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+//       });
+//     }
+//   })
+//   .catch(err => {
+//     res.status(500).send({
+//       message:
+//         err.message || `Error updating User with id = ${id}`
+//     });
+//   });
+
+
 /* Delete User */
-exports.delete(auth, async (req, res) => {
+exports.delete = (auth, async (req, res) => {
   try {
     
     const deletedUser = await User.findByIdAndDelete(req.user);

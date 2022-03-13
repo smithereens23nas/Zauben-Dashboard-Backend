@@ -7,20 +7,23 @@ module.exports = (app) => {
     res.send("Hello World");
   });
 
-  // Create new article
-  router.post("/register", users.create);
+  // Create new user
+  router.post("/register", function(req, res){
+    users.create
+  });
 
-  // Retrieve all Users
-  // router.get("/all", users.findAll);
+  // Login User
+  router.post("/login", function(req, res){
+  users.create});
 
   // Retrieve single User by ID
-  router.get("/:id", users.findOne);
+  router.get("/:id", function(req, res){users.findOne});
 
   // Update Single User
-  router.put("/:id", users.update);
+  router.put("/:id", function(req, res){users.update});
 
   // delete Single User
-  router.delete("/:id", users.delete);
+  router.delete("/:id", function(req, res){users.delete});
 
   // Set articles for user
   //     router.put("/:id/setLocation", users.setUserArticle)
