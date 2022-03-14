@@ -1,6 +1,5 @@
 // DEPENDENCIES
 // get .env variables
-require("dotenv").config();
 // pull PORT from .env, give default value of 3000
 const { PORT } = process.env;
 // import express
@@ -32,9 +31,6 @@ app.use(bodyParser.json());
 // @TODO what is this?
 // content-type --> application/x-www-form-urlencoded ????
 app.use(bodyParser.urlencoded({ extended: true }));
-console.log("******************************************************************")
-console.log(dbConfig.DATABASE_URL)
-console.log("******************************************************************")
 
 // Requiring routes folder
 require("./routes/user_routes")(app);
