@@ -4,173 +4,112 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
+
 // const Location = db.locations;
 // const Op = db.Sequelize.Op;
 /* ==== Routes ==== */
 
-/* Register */
-exports.create = (async (req, res) => {
+
+const register = async (req, res) => {
   try {
+    const foundUser = await User.findOne({ email: req.body.email });
 
-    let { username, email, password, passwordCheck } = req.body;
+    if (foundUser)
+      return res.status(400).json({
+        status: 400,
+        message: "Email address has already been registered. Please try again",
+      });
 
-    if (!email || !password || !passwordCheck) {
-      return res.status(400).json(
-        { 
-          message: 'Missing fields; all fields are required' 
-        }
-      );
-    }
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(req.body.password, salt);
+    const createdUser = await User.create({ ...req.body, password: hash });
 
-    if (password.length < 8) {
-      return res.status(400).json(
-        {
-          message: 'Password must be at least 8 characters',
-        }
-      );
-    }
-
-    if (password !== passwordCheck) {
-      return res.status(400).json(
-        { 
-          message: 'Passwords do not match', 
-        }
-      );
-    }
-
-    const existingUser = await User.findOne({ email: email });
-
-    if (existingUser) {
-      return res.status(400).json(
-        { 
-          message: 'Email is already associated with an account',
-        }
-      );
-    }
-
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
-    const newUser = new User({
-
-      username,
-      email, 
-      password: passwordHash,
-
+    return res
+      .status(201)
+      .json({ status: 201, message: "success", createdUser });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "Something went wrong. Please try again",
     });
-
-    const savedUser = await newUser.save();
-
-    res.json(savedUser);
-
-  } catch (err) {
-    res.status(500).json(
-      {
-        error: err.message, 
-      }
-    );
   }
-});
+};
 
-/* Login */
-exports.create = (async (req, res) => {
+const login = async (req, res) => {
   try {
-    
-    const { email, password } = req.body;
-
-    if(!email || !password) {
-      return res.status(400).json(
-        {
-          message: 'All fields are required',
-        }
-      );
-    }
-
-    const user = await User.findOne({ email: email });
-
-    if (!user) {
-      return res.status(400).json(
-        {
-          message: 'Account does not exist; please register',
-        }
-      );
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(400).json(
-        {
-          message: 'Invalid login credentials'
-        }
-      );
-    }
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-
-    res.json(
-      {
-        token,
-        user: {
-          id: user._id
-        },
-        username: user.username,
-      },
+    const foundUser = await User.findOne({ email: req.body.email }).select(
+      "+password"
     );
 
-  } catch (err) {
-    res.status(500).json(
-      {
-        error: err.message,
-      }
-    );
+    if (!foundUser) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Username or password is incorrect" });
+    }
+
+    const isMatch = await bcrypt.compare(req.body.password, foundUser.password);
+    // check if the passwords match
+    if (isMatch) {
+      //TODO create a json web token and send response
+      // .sign(payload,secretkey,options)
+      const signedJwt = await jwt.sign(
+        { _id: foundUser._id },
+        "supersecretwaffles",
+        {
+          expiresIn: "1h",
+        }
+      );
+      res.status(200).json({
+        status: 200,
+        message: "Success",
+        token: signedJwt,
+      });
+    } else {
+      // the password provided does not match the password on file.
+      return res.status(400).json({
+        status: 400,
+        message: "Username or password is incorrect",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "Something went wrong. Please try again",
+    });
   }
-});
+};
 
-/* Verify JWT Validity */
-exports.create = (async (req, res) => {
+const profile = async (req, res) => {
   try {
+    const foundUser = await User.findById(req.currentUser);
 
-    const token = req.header('x-auth-token');
-  
-    if (!token) {
-      return res.json(false);
-    }
-
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (!verified) {
-      return res.json(false);
-    }
-
-    const user = await User.findById(verified.id);
-
-    if (!user) {
-      return res.json(false);
-    }
-
-    return res.json(true);
-
-  } catch (err) {
-    res.status(500).json(
-      {
-        error: err.message,
-      }
-    );
+    res.json({ headers: req.headers, user: foundUser });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "Something went wrong. Please try again",
+    });
   }
-});
+};
+
+module.exports = {
+  register,
+  login,
+  profile,
+};
 
 /* Get User */
-exports.findOne = (auth, async (req, res) => {
+// exports.findOne = (auth, async (req, res) => {
 
-  const user = await User.findById(req.user);
+//   const user = await User.findById(req.user);
 
-  res.json(
-    {
-      username: user.username,
-      id: user._id,
-    }
-  );
-});
+//   res.json(
+//     {
+//       username: user.username,
+//       id: user._id,
+//     }
+//   );
+// });
 
 // //Update a User
 // User.update = (req.body, {

@@ -25,6 +25,8 @@ module.exports = (app) => {
   // delete Single User
   router.delete("/:id", function(req, res){users.delete});
 
+  router.post("/tokenIsValid", function(req, res){users.create})
+
   // Set articles for user
   //     router.put("/:id/setLocation", users.setUserArticle)
 

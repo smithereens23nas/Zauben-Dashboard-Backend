@@ -1,41 +1,13 @@
-const jwt = require('jsonwebtoken');
+// jwt middle ware for verification
+const jwt = require("jsonwebtoken");
 
-const auth = (req, res, next) => {
-
-  try {
-
-    const token = req.header('x-auth-token');
-
-    if (!token) {
-      return res.status(401).json(
-        { 
-          error: 'Not authorized with token: Denied'
-        }
-      );
-    } 
-
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (!verified) {
-      return res.status(401).json(
-        { 
-          message: 'Token was not verified: Denied',
-        }
-      );
-    }
-
-    req.user = verified; // .id ???
-
+module.exports = async (req, res, next) => {
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
+    const payload = await jwt.verify(token, "supersecretwaffels");
+    req.currentUser = payload._id;
     next();
-
-  } catch (err) {
-  
-    res.status(500).json(
-      {
-        error: err.message
-      }
-    );
+  } else {
+    res.sendStatus(403);
   }
-}
-
-module.exports = auth;
+};
