@@ -9,6 +9,7 @@ module.exports = (app) => {
 
   // Create new user
   router.post("/register", function(req, res){
+    console.log(users.create)
     users.create
   });
 
