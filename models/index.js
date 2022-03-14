@@ -10,6 +10,12 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: dbConfig.dialect,
   port: 5432,
   logging: (...msg) => console.log(msg),
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    }
+  },
   // @TODO what is pool??
   pool: {
     max: dbConfig.pool.max,
@@ -18,9 +24,23 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     idle: dbConfig.pool.idle,
   },
 });
-console.log("==========================================================================")
-console.log(process.env.DATABASE_URL)
-console.log("==========================================================================")
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
+console.log(
+  "=========================================================================="
+);
+console.log(process.env.DATABASE_URL);
+console.log(
+  "=========================================================================="
+);
 // create DB object for export
 const db = {};
 
@@ -54,18 +74,15 @@ db.locations.belongsToMany(db.users, {
 
 db.locations.belongsToMany(db.plants, {
   through: "plants_location",
-  as: "plants", 
-  foreignKey: "locations_id"
+  as: "plants",
+  foreignKey: "locations_id",
 });
 
 db.plants.belongsToMany(db.performance, {
   through: "plants_performance",
   as: "performance",
-  foreignKey: "plants_id"
-})
-
-
-
+  foreignKey: "plants_id",
+});
 
 // export
 module.exports = db;
