@@ -9,9 +9,11 @@ const bodyParser = require("body-parser");
 // create application object
 const app = express();
 const cors = require("cors");
+const dbConfig = require("./config/db_config")
 
 // db setup
 const db = require("./models");
+const { Router } = require("express");
 db.sequelize.sync().then(() => {
   // @TODO delete console.log before deployment
   console.log("DB connected");
@@ -30,6 +32,8 @@ app.use(bodyParser.json());
 // @TODO what is this?
 // content-type --> application/x-www-form-urlencoded ????
 app.use(bodyParser.urlencoded({ extended: true }));
+
+console.log(dbConfig.DATABASE_URL)
 
 // Requiring routes folder
 require("./routes/user_routes")(app);
