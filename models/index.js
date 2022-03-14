@@ -5,7 +5,7 @@ const dbConfig = require("../config/db_config");
 const Sequelize = require("sequelize");
 
 // instantiate new instance of sequelize
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+const sequelize = new Sequelize(dbConfig.use_env_variable, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   logging: (...msg) => console.log(msg),
