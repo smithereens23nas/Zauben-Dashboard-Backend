@@ -17,7 +17,9 @@ const sequelize = new Sequelize(dbConfig.use_env_variable, dbConfig.USER, dbConf
     idle: dbConfig.pool.idle,
   },
 });
+console.log("==========================================================================")
 console.log(process.env.DATABASE_URL)
+console.log("==========================================================================")
 // create DB object for export
 const db = {};
 

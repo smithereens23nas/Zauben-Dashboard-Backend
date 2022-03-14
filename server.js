@@ -32,8 +32,9 @@ app.use(bodyParser.json());
 // @TODO what is this?
 // content-type --> application/x-www-form-urlencoded ????
 app.use(bodyParser.urlencoded({ extended: true }));
-
+console.log("******************************************************************")
 console.log(dbConfig.DATABASE_URL)
+console.log("******************************************************************")
 
 // Requiring routes folder
 require("./routes/user_routes")(app);
