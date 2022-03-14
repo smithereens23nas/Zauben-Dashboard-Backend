@@ -32,5 +32,5 @@ module.exports = app => {
     // delete article for user
 //     router.delete("/:id/deleteLocation", performance.deleteUserArticle)
 
-app.use('/auth/performance', router);
+app.use('/performance', router);
   };
