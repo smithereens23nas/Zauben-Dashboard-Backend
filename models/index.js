@@ -5,7 +5,7 @@ const dbConfig = require("../config/db_config");
 const Sequelize = require("sequelize");
 
 // instantiate new instance of sequelize
-const sequelize = new Sequelize(process.env.DATABASE_URL,{
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   port: 5432,
