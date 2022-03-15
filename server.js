@@ -20,7 +20,7 @@ db.sequelize.sync().then(() => {
 });
 
 let corsOptions = {
-    origin: "http://localhost:3000"
+    origin: "https://623108f7a6dcc10009cf41c1--elegant-varahamihira-b78856.netlify.app/"
   };
 // console.log(sequelize)
 app.use(cors(corsOptions));
