@@ -2,7 +2,7 @@
 // get .env variables
 require("dotenv").config()
 // pull PORT from .env, give default value of 3000
-const { PORT } = process.env;
+const { DEVPORT } = process.env;
 // import express
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -40,4 +40,4 @@ require("./routes/plant_routes")(app);
 require("./routes/performance_routes")(app);
 
 // LISTENER
-app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
+app.listen(DEVPORT, () => console.log(`listening on PORT ${DEVPORT}`));
