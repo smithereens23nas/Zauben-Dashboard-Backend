@@ -23,7 +23,7 @@ let corsOptions = {
     origin: "https://623108f7a6dcc10009cf41c1--elegant-varahamihira-b78856.netlify.app/"
   };
 // console.log(sequelize)
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json()); //req.body
 
 // parse requests (json)
