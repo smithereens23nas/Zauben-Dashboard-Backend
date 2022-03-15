@@ -80,6 +80,7 @@ exports.findAll = (req, res) => {
       where: { id: id }
     })
       .then(num => {
+        console.log(num)
         if (num == 1) {
           res.send({
             message: "Location was updated successfully."

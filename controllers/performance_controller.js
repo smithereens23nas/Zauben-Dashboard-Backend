@@ -88,3 +88,28 @@ exports.findOne = (req, res) => {
       });
     });
 };
+
+// Delete single user
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Peformance.destroy({
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Peformance deleted successfully.",
+        });
+      } else {
+        res.send({
+          message: `Could not delete Peformance with id: ${id}. Peformance may not have been found.`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || `Could not delete Tutorial with id: ${id}.`,
+      });
+    });
+};

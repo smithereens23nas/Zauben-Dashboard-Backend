@@ -19,10 +19,10 @@ module.exports = app => {
     router.get("/:id", locations.findOne);
   
     // // Update Single Article
-    router.put("/:id", locations.update);
+    router.put("/edit/:id", locations.update);
     
     // // delete Single Article
-    router.delete("/:id", locations.delete);
+    router.delete("/edit/:id", locations.delete);
   
     // // set user for article
     // router.put("/:id/setUser", articles.setArticleUser)
