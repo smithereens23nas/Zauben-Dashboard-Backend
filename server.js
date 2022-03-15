@@ -1,5 +1,6 @@
 // DEPENDENCIES
 // get .env variables
+require("dotenv").config()
 // pull PORT from .env, give default value of 3000
 const { PORT } = process.env;
 // import express

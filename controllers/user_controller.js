@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.users;
+
 // const Location = db.locations;
 // const Op = db.Sequelize.Op;
 
