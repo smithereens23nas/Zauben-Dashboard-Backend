@@ -25,17 +25,17 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   },
 });
 
-const sequelize = new Sequelize(dbConfig.development.DB, dbConfig.development.USER, dbConfig.development.PASSWORD, {
-  host: dbConfig.development.HOST,
-  dialect: dbConfig.development.dialect,
-  operatorsAliases: false,
-  pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle
-  }
-});
+// const sequelize = new Sequelize(dbConfig.development.DB, dbConfig.development.USER, dbConfig.development.PASSWORD, {
+//   host: dbConfig.development.HOST,
+//   dialect: dbConfig.development.dialect,
+//   operatorsAliases: false,
+//   pool: {
+//     max: dbConfig.pool.max,
+//     min: dbConfig.pool.min,
+//     acquire: dbConfig.pool.acquire,
+//     idle: dbConfig.pool.idle
+//   }
+// });
 
 sequelize.authenticate()
   .then(() => {
