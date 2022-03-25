@@ -5,37 +5,37 @@ const dbConfig = require("../config/db_config");
 const Sequelize = require("sequelize");
 //production 
 // instantiate new instance of sequelize
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  host: dbConfig.HOST,
-  dialect: dbConfig.dialect,
-  port: 5432,
-  logging: (...msg) => console.log(msg),
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    }
-  },
-  // @TODO what is pool??
-  pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle,
-  },
-});
-
-// const sequelize = new Sequelize(dbConfig.development.DB, dbConfig.development.USER, dbConfig.development.PASSWORD, {
-//   host: dbConfig.development.HOST,
-//   dialect: dbConfig.development.dialect,
-//   operatorsAliases: false,
+// const sequelize = new Sequelize(process.env.DATABASE_URL, {
+//   host: dbConfig.HOST,
+//   dialect: dbConfig.dialect,
+//   port: 5432,
+//   logging: (...msg) => console.log(msg),
+//   dialectOptions: {
+//     ssl: {
+//       require: true,
+//       rejectUnauthorized: false,
+//     }
+//   },
+//   // @TODO what is pool??
 //   pool: {
 //     max: dbConfig.pool.max,
 //     min: dbConfig.pool.min,
 //     acquire: dbConfig.pool.acquire,
-//     idle: dbConfig.pool.idle
-//   }
+//     idle: dbConfig.pool.idle,
+//   },
 // });
+
+const sequelize = new Sequelize(dbConfig.development.DB, dbConfig.development.USER, dbConfig.development.PASSWORD, {
+  host: dbConfig.development.HOST,
+  dialect: dbConfig.development.dialect,
+  operatorsAliases: false,
+  pool: {
+    max: dbConfig.pool.max,
+    min: dbConfig.pool.min,
+    acquire: dbConfig.pool.acquire,
+    idle: dbConfig.pool.idle
+  }
+});
 
 sequelize.authenticate()
   .then(() => {
